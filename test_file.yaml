@@ -1,0 +1,11 @@
+dict:
+    name: Иван
+    salary: 300 €
+    surname: Иванов
+digit: 9
+list:
+- apple
+- ананас
+- mouth
+- cat
+- агент 47
