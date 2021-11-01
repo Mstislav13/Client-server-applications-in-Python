@@ -47,16 +47,16 @@ def get_data():
             total = chardet.detect(data_in_byte)                 # определяем кодировку
             dec_byte = data_in_byte.decode(total['encoding'])    # декодируем
 
-            prod_reg = re.compile(r'.format(REG_1)\s*\S*')
+            prod_reg = re.compile(rf'{REG_1}\s*\S*')
             prod_list.append(prod_reg.findall(dec_byte)[0].split()[2])
 
-            name_os_reg = re.compile(r'.format(REG_2)\s*\S*')
+            name_os_reg = re.compile(rf'{REG_2}\s*\S*')
             name_os_list.append(name_os_reg.findall(dec_byte)[0].split()[2])
 
-            code_prod_reg = re.compile(r'.format(REG_3)\s*\S*')
+            code_prod_reg = re.compile(rf'{REG_3}\s*\S*')
             code_prod_list.append(code_prod_reg.findall(dec_byte)[0].split()[2])
 
-            type_sys_reg = re.compile(r'.format(REG_4)\s*\S*')
+            type_sys_reg = re.compile(rf'{REG_4}\s*\S*')
             type_sys_list.append(type_sys_reg.findall(dec_byte)[0].split()[2])
 
             head = ALL_REG
