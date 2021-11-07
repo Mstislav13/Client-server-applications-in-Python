@@ -9,12 +9,14 @@ from errors import ReqDictMissFiledError
 from common.variables import ACTION, PRESENCE, TIME, PORT, USER, ACCOUNT_NAME, \
     RESPONSE, ERROR, CONNECTIONS_IP_ADDRESS, CONNECTIONS_PORT
 from common.utils import listen_message, send_message
+from decos import log
 
 
 # Инициализация клиентского логирования
 CLIENT_LOGGER = logging.getLogger('client')
 
 
+@log
 def create_presence(account_name='Guest'):
     '''
     Функция генерирует запрос о присутствии клиента
@@ -31,6 +33,7 @@ def create_presence(account_name='Guest'):
     return out
 
 
+@log
 def answer_server(message):
     '''
     Функция разбирает ответ сервера
@@ -43,6 +46,7 @@ def answer_server(message):
     raise ReqDictMissFiledError(RESPONSE)
 
 
+@log
 def create_arg_parser():
     '''
     Создание парсера аргументов командной строки

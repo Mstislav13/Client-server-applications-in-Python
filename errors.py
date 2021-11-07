@@ -23,3 +23,14 @@ class ReqDictMissFiledError(Exception):
 
     def __str__(self):
         return f'В принятом словаре отсутствует обязятельное поле {self.missing_field}.'
+
+
+class ServerError(Exception):
+    '''
+    Исключение - ошибка сервера
+    '''
+    def __init__(self, text):
+        self.text = text
+
+    def __str__(self):
+        return self.text

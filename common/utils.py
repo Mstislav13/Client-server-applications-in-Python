@@ -1,7 +1,11 @@
+import sys
 import json
 from common.variables import MAX_LENGTH_MESSAGE, PROJECT_ENCODING
+from decos import log
+sys.path.append('../')
 
 
+@log
 def listen_message(client):
     '''
     Утилита приёма и декодирования сообщения
@@ -20,6 +24,7 @@ def listen_message(client):
     raise ValueError
 
 
+@log
 def send_message(sock, message):
     '''
     Утилита кодирования и отправки сообщения

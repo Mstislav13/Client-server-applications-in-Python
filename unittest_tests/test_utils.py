@@ -2,7 +2,9 @@ import sys
 import os
 import unittest
 import json
+
 sys.path.append(os.path.join(os.getcwd(), '..'))
+
 from common.variables import ACTION, TIME, USER, ACCOUNT_NAME, PORT, PRESENCE, RESPONSE, \
     ERROR, RESPONDEFAULT_IP_ADDRESSSE, CONNECTIONS_PORT, CONNECTIONS_IP_ADDRESS, PROJECT_ENCODING
 from common.utils import listen_message, send_message

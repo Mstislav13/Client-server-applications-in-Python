@@ -8,11 +8,13 @@ from errors import RecivedIncorrectDataError
 from common.variables import ACTION, ACCOUNT_NAME, RESPONSE, MAX_TURN_CONNECTIONS, \
     PRESENCE, TIME, PORT, USER, ERROR, CONNECTIONS_PORT, RESPONDEFAULT_IP_ADDRESSSE
 from common.utils import listen_message, send_message
+from decos import log
 
 # Инициализация логирования сервера
 SERVER_LOGGER = logging.getLogger('server')
 
 
+@log
 def process_client_message(message):
     '''
     Обработчик сообщений от клиентов, принимает словарь -
@@ -29,6 +31,7 @@ def process_client_message(message):
     }
 
 
+@log
 def create_arg_parser():
     '''
     Создание парсера аргументов командной строки
