@@ -1,10 +1,10 @@
 import subprocess
 
-IN = 's'
-CLOSED_WINDOWS = 'x'
-EXIT = 'q'
-CLIENT_SEND = 1
-CLIENT_LISTEN = 1
+IN = 's'              # Запуск сервера
+CLOSED_WINDOWS = 'x'  # Закрыть окна
+EXIT = 'q'            # Выход
+CLIENT_SEND = 1       # Клиенты отправители
+CLIENT_LISTEN = 1     # Клиенты получатели
 
 WORK_LIST = []
 
