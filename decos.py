@@ -3,6 +3,8 @@ import logging
 import log.server_log_config
 import log.client_log_config
 import time
+import traceback
+import inspect
 
 # Определение модуля (источника) запуска.
 # Метод find() возвращает индекс первого вхождения искомой подстроки,
@@ -25,5 +27,7 @@ class log(object):
         end = time.time()
         LOGGER.debug(f'Функция: {object.__name__} с параметрами: {args}, {kwargs}. '
                      f'Вызвана из модуля {object.__module__}. '
-                     f'Время выполнения: {end-stat} секунд.')
+                     f'Время выполнения: {end-stat} секунд.'
+                     f'Вызов из функции: {traceback.format_stack()[0].strip().split()[-1]}'
+                     f'Вызов из функции: {inspect.stack()[1][3]}')
         return f

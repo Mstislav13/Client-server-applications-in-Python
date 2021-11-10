@@ -3,19 +3,21 @@ import sys
 import json
 import argparse
 import logging
+import time
 import log.server_log_config
-from errors import RecivedIncorrectDataError
+from errors import *
 from common.variables import ACTION, ACCOUNT_NAME, RESPONSE, MAX_TURN_CONNECTIONS, \
-    PRESENCE, TIME, PORT, USER, ERROR, CONNECTIONS_PORT, RESPONDEFAULT_IP_ADDRESSSE
+    PRESENCE, TIME, USER, ERROR, CONNECTIONS_PORT, RESPONDEFAULT_IP_ADDRESSSE, MESSAGE, MESSAGE_TEXT, SENDER
 from common.utils import listen_message, send_message
 from decos import log
+import select
 
 # Инициализация логирования сервера
 SERVER_LOGGER = logging.getLogger('server')
 
 
 @log
-def process_client_message(message):
+def process_client_message(message, list_message, subscriber):
     '''
     Обработчик сообщений от клиентов, принимает словарь -
     сообщение от клинта, проверяет корректность,
@@ -23,12 +25,18 @@ def process_client_message(message):
     '''
     SERVER_LOGGER.debug(f'Обработка сообщения от клиента: {message}')
     if ACTION in message and message[ACTION] == PRESENCE and TIME in message \
-            and PORT in message and USER in message and message[USER][ACCOUNT_NAME] == 'Guest':
-        return {RESPONSE: 200}
-    return {
-        RESPONDEFAULT_IP_ADDRESSSE: 400,
-        ERROR: 'Bad Request'
-    }
+            and USER in message and message[USER][ACCOUNT_NAME] == 'Guest':
+        send_message(subscriber, {RESPONSE: 200})
+        return
+    elif ACTION in message and message[ACTION] == MESSAGE and TIME in message and MESSAGE_TEXT in message:
+        list_message.append((message[ACCOUNT_NAME], message[MESSAGE_TEXT]))
+        return
+    else:
+        send_message(subscriber, {
+            RESPONDEFAULT_IP_ADDRESSSE: 400,
+            ERROR: 'Bad Request'
+        })
+        return
 
 
 @log
@@ -36,56 +44,81 @@ def create_arg_parser():
     '''
     Создание парсера аргументов командной строки
     '''
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-p', default=CONNECTIONS_PORT, type=int, nargs='?')
-    parser.add_argument('-a', default='', nargs='?')
-    return parser
+    compare = argparse.ArgumentParser()
+    compare.add_argument('-p', default=CONNECTIONS_PORT, type=int, nargs='?')
+    compare.add_argument('-a', default='', nargs='?')
+    area_name = compare.parse_args(sys.argv[1:])
+    listen_address = area_name.a
+    listen_port = area_name.p
 
-
-def main():
-    '''
-    Загрузка параметров командной строки, если нет параметров, то задаём значения по умоланию.
-    '''
-    parser = create_arg_parser()
-    namespace = parser.parse_args(sys.argv[1:])
-    listen_address = namespace.a
-    listen_port = namespace.p
-
-    # Проверяем подходящий номер порта.
-    if not 1023 < listen_port < 65536:
+    if listen_port == (range(1024, 65536)):
         SERVER_LOGGER.critical(f'Попытка запуска сервера с неподходящим портом: {listen_port}. '
                                f'Допустимые номера портов с 1024 до 65535.')
         sys.exit(1)
+
+    return listen_address, listen_port
+
+
+def main():
+    listen_address, listen_port = create_arg_parser()
+
     SERVER_LOGGER.info(f'Запущен сервер, порт для подключений: {listen_port}, '
                        f'адрес входящих подключений: {listen_address}. '
                        f'Если адрес не указан, принимаются подключения с любых адресов.')
 
     # Готовим сокет
-    transport = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    transport.bind((listen_address, listen_port))
+    transmit = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    transmit.bind((listen_address, listen_port))
+    transmit.settimeout(0.3)
+
+    # Список клиентов и их сообщений
+    subscribers = []
+    messages = []
 
     # Слушаем порт
-    transport.listen(MAX_TURN_CONNECTIONS)
+    transmit.listen(MAX_TURN_CONNECTIONS)
 
     while True:
-        client, client_address = transport.accept()
-        SERVER_LOGGER.info(f'Установлено соединение с ПК: {client_address}')
         try:
-            message_from_client = listen_message(client)
-            SERVER_LOGGER.debug(f'Получено сообщение: {message_from_client}')
-            response = process_client_message(message_from_client)
-            SERVER_LOGGER.info(f'Сформирован ответ клиенту: {response}')
-            send_message(client, response)
-            SERVER_LOGGER.debug(f'Завершение сеанса соединения с клиентом: {client_address}')
-            client.close()
-        except json.JSONDecodeError:
-            SERVER_LOGGER.error(f'Не удалось декодировать JSON строку полученную от клиента {client_address}. '
-                                f'Завершение сеанса соединения.')
-            client.close()
-        except RecivedIncorrectDataError:
-            SERVER_LOGGER.error(f'От клиента: {client_address} приняты некорректные данные. '
-                                f'Завершение сеанса соединения.')
-            client.close()
+            subscriber, subscriber_address = transmit.accept()
+        except OSError:
+            pass
+        else:
+            SERVER_LOGGER.info(f'Установлено соединение с ПК: {subscriber_address}')
+            subscribers.append(subscriber)
+
+        recv_data_list = []
+        send_data_list = []
+        error_data_list = []
+        try:
+            if subscribers:
+                recv_data_list, send_data_list, error_data_list = select.select(subscribers, subscribers, [], 0)
+        except OSError:
+            pass
+
+        if recv_data_list:
+            for sub_with_message in recv_data_list:
+                try:
+                    process_client_message(listen_message(sub_with_message), messages, sub_with_message)
+                except:
+                    SERVER_LOGGER.info(f'Клиент: {sub_with_message.geter_name()} отключился от сервера.')
+                    subscribers.remove(sub_with_message)
+
+        if messages and send_data_list:
+            message = {
+                ACTION: MESSAGE,
+                SENDER: messages[0][0],
+                TIME: time.time(),
+                MESSAGE_TEXT: messages[0][1]
+            }
+            del messages[0]
+            for waiting_sub in send_data_list:
+                try:
+                    send_message(waiting_sub, message)
+                except:
+                    SERVER_LOGGER.info(f'Клиент: {waiting_sub.geter_name()} отключился от сервера.')
+                    waiting_sub.close()
+                    subscribers.remove(waiting_sub)
 
 
 if __name__ == '__main__':

@@ -75,11 +75,11 @@ def create_arg_parser():
     compare = argparse.ArgumentParser()
     compare.add_argument('addr', default=CONNECTIONS_IP_ADDRESS, nargs='?')
     compare.add_argument('port', default=CONNECTIONS_PORT, type=int, nargs='?')
-    compare.add_argument('-m', '--mode', default='listen', nargs='?')
-    namespace = compare.parse_args(sys.argv[1:])
-    addr_server = namespace.addr
-    port_server = namespace.port
-    client_mode = namespace.mode
+    compare.add_argument('-m', '--mode', default='communication', nargs='?')
+    area_name = compare.parse_args(sys.argv[1:])
+    addr_server = area_name.addr
+    port_server = area_name.port
+    client_mode = area_name.mode
 
     if port_server == (range(1024, 65536)):
         CLIENT_LOGGER.critical(
@@ -88,8 +88,8 @@ def create_arg_parser():
         )
         sys.exit(1)
 
-    if client_mode not in ('listen', 'send'):
-        CLIENT_LOGGER.critical(f'Указан недопустимый режим работы: {client_mode}, допустимые режимы: listen и send')
+    if client_mode != 'communication':
+        CLIENT_LOGGER.critical(f'Недопустимый режим работы: {client_mode}, допустимый режим: communication')
         sys.exit(1)
 
     return addr_server, port_server, client_mode
@@ -126,24 +126,19 @@ def main():
                                f'сервер отклонил запрос на подключение.')
         sys.exit(1)
     else:
-        if client_mode == 'send':
-            print('Отправка сообщений.')
-        else:
-            print('Приём сообщений.')
-        while True:
-            if client_mode == 'send':
-                try:
-                    send_message(transmit, create_presence(transmit))
-                except (ConnectionResetError, ConnectionError, ConnectionAbortedError):
-                    CLIENT_LOGGER.error(f'Соединение с сервером {addr_server} было потеряно.')
-                    sys.exit(1)
+        if client_mode == 'communication':
+            print('Отправка и Приём сообщений')
 
-            else:
-                try:
-                    answer_server(listen_message(transmit))
-                except (ConnectionResetError, ConnectionError, ConnectionAbortedError):
-                    CLIENT_LOGGER.error(f'Соединение с сервером {addr_server} было потеряно.')
-                    sys.exit(1)
+        while True:
+            if client_mode == 'communication':  # запускаем клиента (клиент с слушатель и писатель)
+                while True:
+                    try:
+                        send_message(transmit, create_presence(transmit))   # или клиент отправляет сообщение
+                    except (ConnectionResetError, ConnectionError, ConnectionAbortedError):
+                        CLIENT_LOGGER.error(f'Соединение с сервером {addr_server} было потеряно.')
+                        sys.exit(1)
+                    else:
+                        answer_server(listen_message(transmit))   # или клиент получает сообщение
 
 
 if __name__ == '__main__':
