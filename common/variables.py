@@ -20,6 +20,7 @@ USER = 'user'
 ACCOUNT_NAME = 'account_name'
 PORT = 'port'
 SENDER = 'sender'
+WHITHER = 'to'
 
 # Прочие ключи, используемые в протоколе
 PRESENCE = 'presence'
@@ -28,3 +29,11 @@ ERROR = 'error'
 RESPONDEFAULT_IP_ADDRESSSE = 'respondefault_ip_addressse'
 MESSAGE = 'message'
 MESSAGE_TEXT = 'message_text'
+EXIT = 'exit'
+
+# Словари - ответы:
+RESPONSE_200 = {RESPONSE: 200}
+RESPONSE_400 = {
+    RESPONSE: 400,
+    ERROR: None
+}

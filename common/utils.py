@@ -2,6 +2,7 @@ import sys
 import json
 from common.variables import MAX_LENGTH_MESSAGE, PROJECT_ENCODING
 from decos import log
+from errors import RecivedIncorrectDataError, NonDictInputError
 sys.path.append('../')
 
 
@@ -20,8 +21,10 @@ def listen_message(client):
         response = json.loads(json_response)
         if isinstance(response, dict):
             return response
-        raise ValueError
-    raise ValueError
+        else:
+            raise RecivedIncorrectDataError
+    else:
+        raise RecivedIncorrectDataError
 
 
 @log
