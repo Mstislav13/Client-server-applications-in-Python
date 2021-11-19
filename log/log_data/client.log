@@ -266,3 +266,38 @@
 2021-11-15 00:11:21,374 INFO client.py Клиенту: user2 отправлено сообщение.
 2021-11-15 00:11:21,379 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=460, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 58381), raddr=('127.0.0.1', 7777)>,), {}. Вызвана из модуля builtins. Время выполнения: 53.275275468826294 секунд.Вызов из функции: self._bootstrap_inner()Вызов из функции: answer_clients
 2021-11-15 00:11:21,379 INFO client.py Получено сообщение от пользователя: user1: xzcxzc
+2021-11-19 19:26:40,826 DEBUG decos.py Функция: object с параметрами: (), {}. Вызвана из модуля builtins. Время выполнения: 0.0009999275207519531 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,828 INFO client.py Подключен клиент. Адрес сервера пользователя: 127.0.0.1, номер порта: 7777, имя пользователя: user1
+2021-11-19 19:26:40,829 DEBUG decos.py Функция: object с параметрами: (), {}. Вызвана из модуля builtins. Время выполнения: 0.0020003318786621094 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,829 DEBUG client.py Сформировано presence сообщение для пользователя user1
+2021-11-19 19:26:40,829 INFO client.py Подключен клиент. Адрес сервера пользователя: 127.0.0.1, номер порта: 7777, имя пользователя: user2
+2021-11-19 19:26:40,831 DEBUG client.py Сформировано presence сообщение для пользователя user2
+2021-11-19 19:26:40,831 DEBUG decos.py Функция: object с параметрами: ('user1',), {}. Вызвана из модуля builtins. Время выполнения: 0.0 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,831 DEBUG decos.py Функция: object с параметрами: (), {}. Вызвана из модуля builtins. Время выполнения: 0.0009999275207519531 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,832 INFO client.py Подключен клиент. Адрес сервера пользователя: 127.0.0.1, номер порта: 7777, имя пользователя: user3
+2021-11-19 19:26:40,832 DEBUG decos.py Функция: object с параметрами: ('user2',), {}. Вызвана из модуля builtins. Время выполнения: 0.0 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,833 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=580, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 61901), raddr=('127.0.0.1', 7777)>, {'action': 'presence', 'time': 1637324800.8296006, 'user': {'account_name': 'user1'}}), {}. Вызвана из модуля builtins. Время выполнения: 0.0 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,834 DEBUG client.py Сформировано presence сообщение для пользователя user3
+2021-11-19 19:26:40,834 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=436, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 61902), raddr=('127.0.0.1', 7777)>, {'action': 'presence', 'time': 1637324800.8316004, 'user': {'account_name': 'user2'}}), {}. Вызвана из модуля builtins. Время выполнения: 0.0 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,835 DEBUG decos.py Функция: object с параметрами: ('user3',), {}. Вызвана из модуля builtins. Время выполнения: 0.0010001659393310547 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,836 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=516, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 61903), raddr=('127.0.0.1', 7777)>, {'action': 'presence', 'time': 1637324800.8336008, 'user': {'account_name': 'user3'}}), {}. Вызвана из модуля builtins. Время выполнения: 0.0 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,844 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=580, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 61901), raddr=('127.0.0.1', 7777)>,), {}. Вызвана из модуля builtins. Время выполнения: 0.010001659393310547 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,845 DEBUG client.py Серверное сообщение: {'response': 200}
+2021-11-19 19:26:40,846 DEBUG decos.py Функция: object с параметрами: ({'response': 200},), {}. Вызвана из модуля builtins. Время выполнения: 0.0010004043579101562 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,846 INFO client.py Принят ответ от сервера: 200 : LUCK
+2021-11-19 19:26:40,848 DEBUG client.py Начались переговоры.
+2021-11-19 19:26:40,873 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=436, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 61902), raddr=('127.0.0.1', 7777)>,), {}. Вызвана из модуля builtins. Время выполнения: 0.03801894187927246 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,873 DEBUG client.py Серверное сообщение: {'response': 200}
+2021-11-19 19:26:40,875 DEBUG decos.py Функция: object с параметрами: ({'response': 200},), {}. Вызвана из модуля builtins. Время выполнения: 0.0010104179382324219 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,875 INFO client.py Принят ответ от сервера: 200 : LUCK
+2021-11-19 19:26:40,876 DEBUG client.py Начались переговоры.
+2021-11-19 19:26:40,902 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=516, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 61903), raddr=('127.0.0.1', 7777)>,), {}. Вызвана из модуля builtins. Время выполнения: 0.06502389907836914 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,902 DEBUG client.py Серверное сообщение: {'response': 200}
+2021-11-19 19:26:40,903 DEBUG decos.py Функция: object с параметрами: ({'response': 200},), {}. Вызвана из модуля builtins. Время выполнения: 0.0 секунд.Вызов из функции: main()Вызов из функции: main
+2021-11-19 19:26:40,903 INFO client.py Принят ответ от сервера: 200 : LUCK
+2021-11-19 19:26:40,904 DEBUG client.py Начались переговоры.
+2021-11-19 19:27:04,422 DEBUG client.py Сформирован словарь сообщения: {'action': 'message', 'sender': 'user1', 'to': 'user2', 'time': 1637324824.4229422, 'message_text': 'kjkdfj'}
+2021-11-19 19:27:04,426 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=580, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 61901), raddr=('127.0.0.1', 7777)>, {'action': 'message', 'sender': 'user1', 'to': 'user2', 'time': 1637324824.4229422, 'message_text': 'kjkdfj'}), {}. Вызвана из модуля builtins. Время выполнения: 0.0010104179382324219 секунд.Вызов из функции: self._bootstrap_inner()Вызов из функции: create_presence
+2021-11-19 19:27:04,426 INFO client.py Клиенту: user2 отправлено сообщение.
+2021-11-19 19:27:04,807 DEBUG decos.py Функция: object с параметрами: (<socket.socket fd=436, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 61902), raddr=('127.0.0.1', 7777)>,), {}. Вызвана из модуля builtins. Время выполнения: 23.928114414215088 секунд.Вызов из функции: self._bootstrap_inner()Вызов из функции: answer_clients
+2021-11-19 19:27:04,808 INFO client.py Получено сообщение от пользователя: user1: kjkdfj
