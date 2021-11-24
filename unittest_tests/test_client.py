@@ -1,29 +1,25 @@
 import sys
-import os
+from client import create_presence, process_response_ans
+from common.variables import ACTION, PRESENCE, TIME, USER, ACCOUNT_NAME, RESPONSE, ERROR
 import unittest
-
-sys.path.append(os.path.join(os.getcwd(), '..'))
-
-from common.variables import ACTION, TIME, USER, ACCOUNT_NAME, PORT, PRESENCE, RESPONSE, \
-    ERROR, RESPONDEFAULT_IP_ADDRESSSE, CONNECTIONS_PORT
-from client import create_presence, answer_server
+sys.path.append('../')
 
 
-class TestClient(unittest. TestCase):
-    def test_def_presence(self):
-        test = create_presence()
-        '''время необходимо прировнять принудительно, иначе тест никогда не будет пройден'''
-        test[TIME] = 1.1
-        self.assertEqual(test, {ACTION: PRESENCE, TIME: 1.1, PORT: CONNECTIONS_PORT, USER: {ACCOUNT_NAME: 'Guest'}})
+class TestClient(unittest.TestCase):
+    # тест коректного запроса
+    def test_def_presense(self):
+        test = create_presence('Guest')
+        test[TIME] = 1.1  # время необходимо приравнять принудительно иначе тест никогда не будет пройден
+        self.assertEqual(test, {ACTION: PRESENCE, TIME: 1.1, USER: {ACCOUNT_NAME: 'Guest'}})
 
     def test_luck_answer(self):
-        self.assertEqual(answer_server({RESPONSE: 200}), '200 : OK')
+        self.assertEqual(process_response_ans({RESPONSE: 200}), '200 : OK')
 
     def test_un_luck_answer(self):
-        self.assertEqual(answer_server({RESPONSE: 400, ERROR: 'Bad Request'}), '400 : Bad Request')
+        self.assertEqual(process_response_ans({RESPONSE: 400, ERROR: 'Bad Request'}), '400 : Bad Request')
 
     def test_no_response(self):
-        self.assertRaises(ValueError, answer_server, {ERROR: 'Bad Request'})
+        self.assertRaises(ValueError, process_response_ans, {ERROR: 'Bad Request'})
 
 
 if __name__ == '__main__':

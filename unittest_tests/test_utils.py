@@ -1,55 +1,53 @@
 import sys
-import os
+from common.utils import get_message, send_message
+from common.variables import ENCODING, ACTION, PRESENCE, TIME, USER, ACCOUNT_NAME, RESPONSE, ERROR
 import unittest
+from errors import NonDictInputError
 import json
-
+import os
+sys.path.append('../')
 sys.path.append(os.path.join(os.getcwd(), '..'))
-
-from common.variables import ACTION, TIME, USER, ACCOUNT_NAME, PORT, PRESENCE, RESPONSE, \
-    ERROR, RESPONDEFAULT_IP_ADDRESSSE, CONNECTIONS_PORT, CONNECTIONS_IP_ADDRESS, PROJECT_ENCODING
-from common.utils import listen_message, send_message
 
 
 class TestConnectSpot:
-    '''
-    тестовый класс для тестирования отправки и получения
+    """
+    Тестовый класс для тестирования отправки и получения
     (при создании требует словарь, который будет прогоняться через тестовую функцию)
-    '''
+    """
     def __init__(self, test_dict):
-        self.test_dict = test_dict
-        self.encoded_message = None
-        self.received_message = None
+        self.testdict = test_dict
 
-    def transmit(self, transmit_message):
-        '''
-        тестовая функция отправки (корректно кодирует сообщение, сораняет то, что должно быть отправлено в сокет)
+    def send(self, message_to_send):
+        """
+        Тестовая функция отправки (корректно кодирует сообщение, сораняет то, что должно быть отправлено в сокет)
         transmit_message - отправляем в сокет
-        :param transmit_message:
+        :param message_to_send:
         :return:
-        '''
-        json_test_message = json.dumps(self.test_dict)
-        self.encoded_message = json_test_message.encode(PROJECT_ENCODING)   # кодируем сообщение
-        self.received_message = transmit_message   # сохраняем то, что должно быть отправлено в сокет
+        """
+        json_test_message = json.dumps(self.testdict)
+        self.encoded_message = json_test_message.encode(ENCODING)
+        self.receved_message = message_to_send
 
-    def gotten(self, max_len):
-        '''
-        получаем данные из сокета
+    def recv(self, max_len):
+        """
+        Получаем данные из сокета
         :param max_len:
         :return:
-        '''
-        json_test_message = json.dumps(self.test_dict)
-        return json_test_message.encode(PROJECT_ENCODING)
+        """
+        json_test_message = json.dumps(self.testdict)
+        return json_test_message.encode(ENCODING)
 
 
 class TestingOfProcess(unittest.TestCase):
-    '''
-    тестовый класс выполняющий тестирование
-    '''
-    test_dict_transmit = {
+    """
+    Тестовый класс выполняющий тестирование
+    """
+    test_dict_send = {
         ACTION: PRESENCE,
-        TIME: 1.1,
-        PORT: CONNECTIONS_PORT,
-        USER: {ACCOUNT_NAME: 'test_test'}
+        TIME: 111111.111111,
+        USER: {
+            ACCOUNT_NAME: 'test_test'
+        }
     }
     test_dict_gotten_luck = {RESPONSE: 200}
     test_dict_gotten_un_luck = {
@@ -58,33 +56,33 @@ class TestingOfProcess(unittest.TestCase):
     }
 
     def test_send_message(self):
-        '''
-        тестируем корректность работы функции отправки,
+        """
+        Тестируем корректность работы функции отправки,
         создаём тестовый сокет,
         проверяем корректность отправки словаря
         :return:
-        '''
-        # экземпляр тестового словаря, хранящий тестовый словарь
-        test_connect_spot = TestConnectSpot(self.test_dict_transmit)
-        # вызов тестируемой функции, результат которого сохранится в тестовом сокете
-        send_message(test_connect_spot, self.test_dict_transmit)
-        # проверка корректности кодирования словаря
-        self.assertEqual(test_connect_spot.encoded_message, test_connect_spot.received_message)
-        # проверка генерации исключения (если на входе будет не словарь)
-        # формат assertRaises: <<self.assertRaises(TypeError, test_function, args)>>
-        self.assertRaises(TypeError, send_message, test_connect_spot, 'dictionary_is_no_correct')
+        """
+        # экземпляр тестового словаря, хранит собственно тестовый словарь
+        test_socket = TestConnectSpot(self.test_dict_send)
+        # вызов тестируемой функции, результаты будут сохранены в тестовом сокете
+        send_message(test_socket, self.test_dict_send)
+        # проверка корретности кодирования словаря. сравниваем результат довренного кодирования и результат
+        # от тестируемой функции
+        self.assertEqual(test_socket.encoded_message, test_socket.receved_message)
+        # дополнительно, проверим генерацию исключения, при не словаре на входе.
+        self.assertRaises(NonDictInputError, send_message, test_socket, 1111)
 
     def test_listen_message(self):
-        '''
-        тест функции приёма сообщения
+        """
+        Тест функции приёма сообщения
         :return:
-        '''
-        test_connect_luck = TestConnectSpot(self.test_dict_gotten_luck)
-        test_connect_un_luck = TestConnectSpot(self.test_dict_gotten_un_luck)
+        """
+        test_sock_luck = TestConnectSpot(self.test_dict_gotten_luck)
+        test_sock_un_luck = TestConnectSpot(self.test_dict_gotten_un_luck)
         # тест корректной расшифровки корректного словаря
-        self.assertEqual(listen_message(test_connect_luck), self.test_dict_gotten_luck)
-        # тест корректной расшифровки не корректного словаря
-        self.assertEqual(listen_message(test_connect_un_luck), self.test_dict_gotten_un_luck)
+        self.assertEqual(get_message(test_sock_luck), self.test_dict_gotten_luck)
+        # тест корректной расшифровки ошибочного словаря
+        self.assertEqual(get_message(test_sock_un_luck), self.test_dict_gotten_un_luck)
 
 
 if __name__ == '__main__':

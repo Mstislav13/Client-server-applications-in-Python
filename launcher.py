@@ -3,13 +3,12 @@ import subprocess
 IN = 's'              # запустить сервер
 CLOSED_WINDOWS = 'x'  # закрыть все окна
 EXIT = 'q'            # выход
-CLIENTS = 3           # количество клиентов
+# CLIENTS = 3           # количество клиентов
 
 WORK_LIST = []
 
 while True:
-    OPERATION = input(f'Подключить {CLIENTS} клиентов:\n '
-                      f'Выберите действие:\n '
+    OPERATION = input(f'Выберите действие:\n '
                       f'{IN} - запустить сервер и подключить клиентов,\n'
                       f' {CLOSED_WINDOWS} - закрыть все окна,\n'
                       f' {EXIT} - выход\n')
@@ -18,6 +17,7 @@ while True:
         break
 
     elif OPERATION == IN:
+        CLIENTS = int(input('Сколько клиентов запустить?: '))
         WORK_LIST.append(subprocess.Popen('python server.py', creationflags=subprocess.CREATE_NEW_CONSOLE))
 
         for _ in range(CLIENTS):

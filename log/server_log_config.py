@@ -2,36 +2,33 @@ import os
 import sys
 import logging
 import logging.handlers
-# from common.variables import LOGGING_LEVEL  # При запуске выдаёт ошибку (No module named 'common')
-
-sys.path.append(os.path.join(os.getcwd(), '..'))
+from common.variables import LOGGING_LEVEL
 sys.path.append('../')
+sys.path.append(os.path.join(os.getcwd(), '..'))
 
-LOGGING_LEVEL = logging.DEBUG  # Перенёс сюда из-за ошибки
+# создаём формировщик логов (formatter):
+server_formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(message)s')
 
-# Создаём формировщик логов - formatter:
-SERVER_LOG_FORMATTER = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(message)s')
+# Подготовка имени файла для логирования
+path = os.path.dirname(os.path.abspath(__file__))
+path = os.path.join(path, 'log_data/server.log')
 
-# Подготовка файла для логирования
-PATH = os.path.dirname(os.path.abspath(__file__))
-PATH = os.path.join(PATH, 'log_data/server.log')
+# создаём потоки вывода логов
+steam = logging.StreamHandler(sys.stderr)
+steam.setFormatter(server_formatter)
+steam.setLevel(logging.DEBUG)
+log_file = logging.handlers.TimedRotatingFileHandler(path, encoding='utf-8', interval=1, when='D')
+log_file.setFormatter(server_formatter)
 
-# Создаём потоки вывода логов
-LOG_OUTPUT_STREAMS = logging.StreamHandler(sys.stderr)
-LOG_OUTPUT_STREAMS.setFormatter(SERVER_LOG_FORMATTER)
-LOG_OUTPUT_STREAMS.setLevel(logging.ERROR)
-LOG_FILE = logging.handlers.TimedRotatingFileHandler(PATH, encoding='utf-8', interval=1, when='D')
-LOG_FILE.setFormatter(SERVER_LOG_FORMATTER)
+# создаём регистратор и настраиваем его
+logger = logging.getLogger('server')
+logger.addHandler(steam)
+logger.addHandler(log_file)
+logger.setLevel(LOGGING_LEVEL)
 
-# Создаём и настраиваем регистратор
-LOGGER = logging.getLogger('server')
-LOGGER.addHandler(LOG_OUTPUT_STREAMS)
-LOGGER.addHandler(LOG_FILE)
-LOGGER.setLevel(LOGGING_LEVEL)
-
-# Отладка
+# отладка
 if __name__ == '__main__':
-    LOGGER.critical('Критическая ошибка')
-    LOGGER.error('Ошибка')
-    LOGGER.info('Информационное сообщени')
-    LOGGER.debug('Отладочная информация')
+    logger.critical('Критическая ошибка')
+    logger.error('Ошибка')
+    logger.debug('Отладочная информация')
+    logger.info('Информационное сообщение')
