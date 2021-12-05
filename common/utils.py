@@ -1,8 +1,8 @@
 import sys
 import json
 from common.variables import MAX_PACKAGE_LENGTH, ENCODING
-from decos import log
-from errors import IncorrectDataRecivedError, NonDictInputError
+from common.decos import log
+from common.errors import IncorrectDataRecivedError, NonDictInputError
 sys.path.append('../')
 
 

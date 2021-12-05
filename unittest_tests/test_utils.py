@@ -2,7 +2,7 @@ import sys
 from common.utils import get_message, send_message
 from common.variables import ENCODING, ACTION, PRESENCE, TIME, USER, ACCOUNT_NAME, RESPONSE, ERROR
 import unittest
-from errors import NonDictInputError
+from common.errors import NonDictInputError
 import json
 import os
 sys.path.append('../')

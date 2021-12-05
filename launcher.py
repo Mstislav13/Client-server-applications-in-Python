@@ -18,10 +18,12 @@ while True:
 
     elif OPERATION == IN:
         CLIENTS = int(input('Сколько клиентов запустить?: '))
+
         WORK_LIST.append(subprocess.Popen('python server.py', creationflags=subprocess.CREATE_NEW_CONSOLE))
 
         for _ in range(CLIENTS):
-            WORK_LIST.append(subprocess.Popen(f'python client.py -n user{_+1}',
+            WORK_LIST.append(subprocess.Popen(f'python client.py -n user{_ + 1}',
+
                                               creationflags=subprocess.CREATE_NEW_CONSOLE))
 
     elif OPERATION == CLOSED_WINDOWS:

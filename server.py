@@ -5,13 +5,9 @@ import socket
 import sys
 import os
 import configparser
-import json
-import time
 import threading
-import log.server_log_config
-from errors import IncorrectDataRecivedError
-from decos import log
-from common.variables import DEFAULT_PORT, MAX_CONNECTIONS, WHITHER, ACTION, USER, ACCOUNT_NAME, PRESENCE, TIME, \
+from common.decos import log
+from common.variables import DEFAULT_PORT, WHITHER, ACTION, USER, ACCOUNT_NAME, PRESENCE, TIME, \
                              RESPONSE_200, RESPONSE_400, ERROR, MESSAGE, SENDER, MESSAGE_TEXT, EXIT, GET_CONTACTS, \
                              RESPONSE_202, LIST_INFO, ADD_CONTACT, REMOVE_CONTACT, USERS_REQUEST
 from common.utils import get_message, send_message
@@ -21,8 +17,6 @@ from server_database import ServerStorage
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtCore import QTimer
 from server_gui import MainWindow, gui_create_model, HistoryWindow, create_stat_model, ConfigWindow
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
-
 
 # Инициализация логирования сервера
 logger = logging.getLogger('server')
@@ -236,16 +230,34 @@ def create_arg_parser(default_port, default_address):
     return listen_address, listen_port
 
 
-def main():
-    # Загрузка файла конфигурации сервера
+def config_load():
+    """
+    Загрузка файла конфигурации
+    :return:
+    """
     config = configparser.ConfigParser()
-
     dir_path = os.path.dirname(os.path.realpath(__file__))
     config.read(f"{dir_path}/{'server.ini'}")
+    # Если файл конфигурации загружен правильно - запускаемся
+    # Иначе конфигурация по умолчанию.
+    if 'SETTINGS' in config:
+        return config
+    else:
+        config.add_section('SETTINGS')
+        config.set('SETTINGS', 'Default_port', str(DEFAULT_PORT))
+        config.set('SETTINGS', 'Listen_Address', '')
+        config.set('SETTINGS', 'Database_path', '')
+        config.set('SETTINGS', 'Database_file', 'server_database.db3')
+        return config
+
+
+def main():
+    # Загрузка файла конфигурации сервера
+    config = config_load()
 
     # Загрузка параметров командной строки, если нет параметров, то задаём значения по умоланию.
-    listen_address, listen_port = create_arg_parser(config['SETTINGS']['Default_port'], config['SETTINGS']
-    ['Listen_Address'])
+    listen_address, listen_port = create_arg_parser(config['SETTINGS']['Default_port'],
+                                                    config['SETTINGS']['Listen_Address'])
 
     # Инициализация базы данных
     database = ServerStorage(os.path.join(
@@ -273,8 +285,7 @@ def main():
     def list_update():
         global new_connection
         if new_connection:
-            main_window.active_clients_table.setModel(
-                gui_create_model(database))
+            main_window.active_clients_table.setModel(gui_create_model(database))
             main_window.active_clients_table.resizeColumnsToContents()
             main_window.active_clients_table.resizeRowsToContents()
             with conflag_lock:
@@ -315,7 +326,8 @@ def main():
             if 1023 < port < 65536:
                 config['SETTINGS']['Default_port'] = str(port)
                 print(port)
-                with open('server.ini', 'w') as conf:
+                dir_path = os.path.dirname(os.path.realpath(__file__))
+                with open(f"{dir_path}/{'server.ini'}", 'w') as conf:
                     config.write(conf)
                     message.information(
                         config_window, 'OK', 'Настройки успешно сохранены!')
@@ -323,7 +335,8 @@ def main():
                 message.warning(
                     config_window,
                     'Ошибка',
-                    'Порт должен быть от 1024 до 65536')
+                    'Порт должен быть от 1024 до 65536'
+                )
 
     # Таймер, обновляющий список клиентов 1 раз в секунду
     timer = QTimer()
