@@ -5,6 +5,9 @@ logger = logging.getLogger('server')
 
 
 class Port:
+    """
+    Класс - дескриптор для номера порта.
+    """
     def __set__(self, instance, value):
         if value == (range(1024, 65536)):
             logger.critical(
@@ -18,6 +21,9 @@ class Port:
 
 
 class Address():
+    """
+    Класс - дескриптор для IP-адреса.
+    """
     def __set__(self, instance, value):
         if value:
             try:

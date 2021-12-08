@@ -2,16 +2,17 @@ import os
 import sys
 import json
 import logging
+import base64
 from client.main_window_conv import Ui_MainClientWindow
 from client.add_contact import AddContactDialog
 from client.del_contact import DelContactDialog
-from client.database import ClientDatabase
-from client.transport import ClientTransport
-from client.start_dialog import UserNameDialog
+from common.variables import *
 from common.errors import ServerError
 from PyQt5.QtWidgets import QMainWindow, qApp, QMessageBox, QApplication, QListView
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QBrush, QColor
 from PyQt5.QtCore import pyqtSlot, QEvent, Qt
+from Cryptodome.Cipher import PKCS1_OAEP
+from Cryptodome.PublicKey import RSA
 sys.path.append('../')
 
 # Инициализация клиентского логера
@@ -22,11 +23,14 @@ class ClientMainWindow(QMainWindow):
     """
     Класс основного окна
     """
-    def __init__(self, database, transport):
+    def __init__(self, database, transport, keys):
         super().__init__()
         # Основные переменные
         self.database = database
         self.transport = transport
+
+        # объект - дешифорвщик сообщений с предзагруженным ключём
+        self.decrypter = PKCS1_OAEP.new(keys)
 
         # Загружаем конфигурацию окна из дизайнера
         self.ui = Ui_MainClientWindow()
@@ -51,6 +55,8 @@ class ClientMainWindow(QMainWindow):
         self.history_model = None
         self.messages = QMessageBox()
         self.current_chat = None
+        self.current_chat_key = None
+        self.encryptor = None
         self.ui.list_messages.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.ui.list_messages.setWordWrap(True)
 
@@ -76,6 +82,10 @@ class ClientMainWindow(QMainWindow):
         self.ui.btn_clear.setDisabled(True)
         self.ui.btn_send.setDisabled(True)
         self.ui.text_message.setDisabled(True)
+
+        self.encryptor = None
+        self.current_chat = None
+        self.current_chat_key = None
 
     # Заполняем историю сообщений.
     def history_list_update(self):
@@ -128,6 +138,25 @@ class ClientMainWindow(QMainWindow):
         Функция устанавливающяя активного собеседника
         :return:
         """
+        # Запрашиваем публичный ключ пользователя и создаём объект шифрования
+        try:
+            self.current_chat_key = self.transport.key_request(
+                self.current_chat)
+            logger.debug(f'Загружен открытый ключ для: {self.current_chat}')
+            if self.current_chat_key:
+                self.encryptor = PKCS1_OAEP.new(
+                    RSA.import_key(self.current_chat_key))
+        except (OSError, json.JSONDecodeError):
+            self.current_chat_key = None
+            self.encryptor = None
+            logger.debug(f'Не удалось получить ключ для: {self.current_chat}')
+
+            # Если ключа нет то ошибка, что не удалось начать чат с пользователем
+        if not self.current_chat_key:
+            self.messages.warning(
+                self, 'Ошибка', 'Для выбранного пользователя нет ключа шифрования.')
+            return
+
         # Ставим надпись и активируем кнопки
         self.ui.label_new_message.setText(f'Введите сообщенние для: {self.current_chat}:')
         self.ui.btn_clear.setDisabled(False)
@@ -242,8 +271,13 @@ class ClientMainWindow(QMainWindow):
         self.ui.text_message.clear()
         if not message_text:
             return
+        # Шифруем сообщение ключом получателя и упаковываем в base64.
+        message_text_encrypted = self.encryptor.encrypt(
+            message_text.encode('utf-8'))
+        message_text_encrypted_base64 = base64.b64encode(
+            message_text_encrypted)
         try:
-            self.transport.send_message(self.current_chat, message_text)
+            self.transport.send_message(self.current_chat, message_text_encrypted_base64.decode('ascii'))
             pass
         except ServerError as err:
             self.messages.critical(self, 'Ошибка', err.text)
@@ -262,11 +296,28 @@ class ClientMainWindow(QMainWindow):
 
     # Слот приёма нового сообщения
     @pyqtSlot(str)
-    def message(self, sender):
+    def message(self, message):
         """
-        :param sender:
+        Слот обработчик поступаемых сообщений, выполняет дешифровку
+        поступаемых сообщений и их сохранение в истории сообщений.
+        Запрашивает пользователя если пришло сообщение не от текущего
+        собеседника. При необходимости меняет собеседника.
+        :param message:
         :return:
         """
+        # Получаем строку байтов
+        encrypted_message = base64.b64decode(message[MESSAGE_TEXT])
+        # Декодируем строку, при ошибке выдаём сообщение и завершаем функцию
+        try:
+            decrypted_message = self.decrypter.decrypt(encrypted_message)
+        except (ValueError, TypeError):
+            self.messages.warning(
+                self, 'Ошибка', 'Не удалось декодировать сообщение.')
+            return
+        # Сохраняем сообщение в базу и обновляем историю сообщений или открываем новый чат.
+        self.database.save_message(self.current_chat, 'in', decrypted_message.decode('utf-8'))
+
+        sender = message[SENDER]
         if sender == self.current_chat:
             self.history_list_update()
         else:
@@ -288,6 +339,9 @@ class ClientMainWindow(QMainWindow):
                                           QMessageBox.No) == QMessageBox.Yes:
                     self.add_contact(sender)
                     self.current_chat = sender
+                    # Нужно заново сохранить сообщение, иначе оно будет потеряно,
+                    # т.к. на момент предыдущего вызова контакта не было.
+                    self.database.save_message(self.current_chat, 'in', decrypted_message.decode('utf8'))
                     self.set_active_user()
 
     # Слот потери соединения
@@ -300,6 +354,17 @@ class ClientMainWindow(QMainWindow):
         self.messages.warning(self, 'Сбой соединения', 'Потеряно соединение с сервером. ')
         self.close()
 
+    @pyqtSlot()
+    def sig_205(self):
+        """
+        Слот выполняющий обновление баз данных по команде сервера.
+        """
+        if self.current_chat and not self.database.check_user(self.current_chat):
+            self.messages.warning(self, 'К сожалению собеседник был удалён с сервера.')
+            self.set_disabled_input()
+            self.current_chat = None
+            self.clients_list_update()
+
     def make_connection(self, trans_obj):
         """
         :param trans_obj:
@@ -307,3 +372,4 @@ class ClientMainWindow(QMainWindow):
         """
         trans_obj.new_message.connect(self.message)
         trans_obj.connection_lost.connect(self.connection_lost)
+        trans_obj.message_205.connect(self.sig_205)

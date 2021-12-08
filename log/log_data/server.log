@@ -1,2 +1,50 @@
-2021-12-05 01:21:28,173 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
-2021-12-05 01:54:32,263 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
+2021-12-07 23:59:54,862 DEBUG decos.py Функция: main с параметрами: () , {}. Вызов из модуля __main__
+2021-12-07 23:59:54,864 DEBUG decos.py Функция: config_load с параметрами: () , {}. Вызов из модуля __main__
+2021-12-07 23:59:54,865 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
+2021-12-07 23:59:54,865 DEBUG server.py Создание парсера аргументов командной строки: ['C:/Users/slava/PycharmProjects/csapp_python/Client-server-applications-in-Python/server.py']
+2021-12-07 23:59:54,866 DEBUG server.py Аргументы успешно загружены
+2021-12-07 23:59:54,921 INFO core.py Запущен сервер, порт для подключений: 7777, адрес входящих подключений: . Если адрес не указан, принимаются соединения с любых адресов.
+2021-12-08 00:06:09,656 DEBUG decos.py Функция: main с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 00:06:09,657 DEBUG decos.py Функция: config_load с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 00:06:09,658 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
+2021-12-08 00:06:09,658 DEBUG server.py Создание парсера аргументов командной строки: ['C:/Users/slava/PycharmProjects/csapp_python/Client-server-applications-in-Python/server.py']
+2021-12-08 00:06:09,659 DEBUG server.py Аргументы успешно загружены
+2021-12-08 00:06:09,693 INFO core.py Запущен сервер, порт для подключений: 7777, адрес входящих подключений: . Если адрес не указан, принимаются соединения с любых адресов.
+2021-12-08 01:05:39,202 DEBUG decos.py Функция: main с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 01:05:39,202 DEBUG decos.py Функция: config_load с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 01:05:39,203 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
+2021-12-08 01:05:39,204 DEBUG server.py Создание парсера аргументов командной строки: ['C:/Users/slava/PycharmProjects/csapp_python/Client-server-applications-in-Python/server.py']
+2021-12-08 01:05:39,205 DEBUG server.py Аргументы успешно загружены
+2021-12-08 01:05:39,239 INFO core.py Запущен сервер, порт для подключений: 7777, адрес входящих подключений: . Если адрес не указан, принимаются соединения с любых адресов.
+2021-12-08 01:10:42,974 DEBUG decos.py Функция: main с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 01:10:42,974 DEBUG decos.py Функция: config_load с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 01:10:42,975 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
+2021-12-08 01:10:42,976 DEBUG server.py Создание парсера аргументов командной строки: ['C:/Users/slava/PycharmProjects/csapp_python/Client-server-applications-in-Python/server.py']
+2021-12-08 01:10:42,977 DEBUG server.py Аргументы успешно загружены
+2021-12-08 01:10:43,014 INFO core.py Запущен сервер, порт для подключений: 7777, адрес входящих подключений: . Если адрес не указан, принимаются соединения с любых адресов.
+2021-12-08 01:11:05,951 INFO core.py Установлено соедение с ПК ('127.0.0.1', 52552)
+2021-12-08 01:11:06,459 DEBUG decos.py Функция: get_message с параметрами: (<socket.socket fd=1524, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 52552)>,) , {}. Вызов из модуля common.utils
+2021-12-08 01:11:06,459 DEBUG core.py Обработка сообщения от клиента: {'action': 'presence', 'time': 1638900665.9900737, 'user': {'account_name': 'figaro', 'pubkey': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA/FN3I2y3BHf7gt+kRA4q\nhsJ/+hhwwPYvyfoMOHbyEeXRbBfy33wgJG4sfLrgYVBwF6dBpo4a3795MHFavKtV\n1B8n63PKb+MEbcGeUOleZd7iw+vkck5pXD9tSqoeJSJac3JpoAitz/8wyyaiCx1w\nn/fOMGXrqzeQ4Ftw2FYfuGZL2pM4ZxjOJCniehs0tG3VpA87QvlBbOEDvScsPg+9\nfPQGK6YyjshUnir/Iit5OuBPceeomr3xm/uUDwJhu4aVcbbswKz908Wc2OIzZYs8\nXeLHmjLe6/OwVqykSeK/tW2sWiwSRe49ohonRtA6c9O9TMVzA4EJq/E4nwAyT0G7\nzQIDAQAB\n-----END PUBLIC KEY-----'}}
+2021-12-08 01:11:06,459 DEBUG core.py Запуск авторизации для: {'account_name': 'figaro', 'pubkey': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA/FN3I2y3BHf7gt+kRA4q\nhsJ/+hhwwPYvyfoMOHbyEeXRbBfy33wgJG4sfLrgYVBwF6dBpo4a3795MHFavKtV\n1B8n63PKb+MEbcGeUOleZd7iw+vkck5pXD9tSqoeJSJac3JpoAitz/8wyyaiCx1w\nn/fOMGXrqzeQ4Ftw2FYfuGZL2pM4ZxjOJCniehs0tG3VpA87QvlBbOEDvScsPg+9\nfPQGK6YyjshUnir/Iit5OuBPceeomr3xm/uUDwJhu4aVcbbswKz908Wc2OIzZYs8\nXeLHmjLe6/OwVqykSeK/tW2sWiwSRe49ohonRtA6c9O9TMVzA4EJq/E4nwAyT0G7\nzQIDAQAB\n-----END PUBLIC KEY-----'}
+2021-12-08 01:13:04,841 DEBUG decos.py Функция: main с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 01:13:04,842 DEBUG decos.py Функция: config_load с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 01:13:04,843 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
+2021-12-08 01:13:04,843 DEBUG server.py Создание парсера аргументов командной строки: ['C:/Users/slava/PycharmProjects/csapp_python/Client-server-applications-in-Python/server.py']
+2021-12-08 01:13:04,844 DEBUG server.py Аргументы успешно загружены
+2021-12-08 01:13:04,881 INFO core.py Запущен сервер, порт для подключений: 7777, адрес входящих подключений: . Если адрес не указан, принимаются соединения с любых адресов.
+2021-12-08 17:11:23,108 DEBUG decos.py Функция: main с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 17:11:23,108 DEBUG decos.py Функция: config_load с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 17:11:23,109 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
+2021-12-08 17:11:23,110 DEBUG server.py Создание парсера аргументов командной строки: ['C:/Users/slava/PycharmProjects/csapp_python/Client-server-applications-in-Python/server.py']
+2021-12-08 17:11:23,111 DEBUG server.py Аргументы успешно загружены
+2021-12-08 17:11:23,183 INFO core.py Запущен сервер, порт для подключений: 7777, адрес входящих подключений: . Если адрес не указан, принимаются соединения с любых адресов.
+2021-12-08 17:27:42,413 DEBUG decos.py Функция: main с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 17:27:42,413 DEBUG decos.py Функция: config_load с параметрами: () , {}. Вызов из модуля __main__
+2021-12-08 17:27:42,414 DEBUG decos.py Функция: create_arg_parser с параметрами: ('7777', '') , {}. Вызов из модуля __main__
+2021-12-08 17:27:42,415 DEBUG server.py Создание парсера аргументов командной строки: ['C:/Users/slava/PycharmProjects/csapp_python/Client-server-applications-in-Python/server.py']
+2021-12-08 17:27:42,416 DEBUG server.py Аргументы успешно загружены
+2021-12-08 17:27:42,450 INFO core.py Запущен сервер, порт для подключений: 7777, адрес входящих подключений: . Если адрес не указан, принимаются соединения с любых адресов.
+2021-12-08 17:28:13,752 INFO core.py Установлено соедение с ПК ('127.0.0.1', 58800)
+2021-12-08 17:28:14,265 DEBUG decos.py Функция: get_message с параметрами: (<socket.socket fd=1484, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 7777), raddr=('127.0.0.1', 58800)>,) , {}. Вызов из модуля common.utils
+2021-12-08 17:28:14,265 DEBUG core.py Обработка сообщения от клиента: {'action': 'presence', 'time': 1638959293.791301, 'user': {'account_name': 'figaro', 'pubkey': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA/FN3I2y3BHf7gt+kRA4q\nhsJ/+hhwwPYvyfoMOHbyEeXRbBfy33wgJG4sfLrgYVBwF6dBpo4a3795MHFavKtV\n1B8n63PKb+MEbcGeUOleZd7iw+vkck5pXD9tSqoeJSJac3JpoAitz/8wyyaiCx1w\nn/fOMGXrqzeQ4Ftw2FYfuGZL2pM4ZxjOJCniehs0tG3VpA87QvlBbOEDvScsPg+9\nfPQGK6YyjshUnir/Iit5OuBPceeomr3xm/uUDwJhu4aVcbbswKz908Wc2OIzZYs8\nXeLHmjLe6/OwVqykSeK/tW2sWiwSRe49ohonRtA6c9O9TMVzA4EJq/E4nwAyT0G7\nzQIDAQAB\n-----END PUBLIC KEY-----'}}
+2021-12-08 17:28:14,265 DEBUG core.py Запуск авторизации для: {'account_name': 'figaro', 'pubkey': '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA/FN3I2y3BHf7gt+kRA4q\nhsJ/+hhwwPYvyfoMOHbyEeXRbBfy33wgJG4sfLrgYVBwF6dBpo4a3795MHFavKtV\n1B8n63PKb+MEbcGeUOleZd7iw+vkck5pXD9tSqoeJSJac3JpoAitz/8wyyaiCx1w\nn/fOMGXrqzeQ4Ftw2FYfuGZL2pM4ZxjOJCniehs0tG3VpA87QvlBbOEDvScsPg+9\nfPQGK6YyjshUnir/Iit5OuBPceeomr3xm/uUDwJhu4aVcbbswKz908Wc2OIzZYs8\nXeLHmjLe6/OwVqykSeK/tW2sWiwSRe49ohonRtA6c9O9TMVzA4EJq/E4nwAyT0G7\nzQIDAQAB\n-----END PUBLIC KEY-----'}
