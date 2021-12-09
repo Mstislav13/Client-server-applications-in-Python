@@ -158,7 +158,7 @@ class ClientMainWindow(QMainWindow):
             return
 
         # Ставим надпись и активируем кнопки
-        self.ui.label_new_message.setText(f'Введите сообщенние для: {self.current_chat}:')
+        self.ui.label_new_message.setText(f'Сообщенние для: {self.current_chat}:')
         self.ui.btn_clear.setDisabled(False)
         self.ui.btn_send.setDisabled(False)
         self.ui.text_message.setDisabled(False)

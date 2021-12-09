@@ -2,6 +2,8 @@ import argparse
 import os
 import sys
 import configparser
+import logging
+import log.server_log_config
 from common.decos import log
 from common.utils import get_message, send_message
 from common.variables import *
@@ -52,7 +54,7 @@ def config_load():
         config.set('SETTINGS', 'Default_port', str(DEFAULT_PORT))
         config.set('SETTINGS', 'Listen_Address', '')
         config.set('SETTINGS', 'Database_path', '')
-        config.set('SETTINGS', 'Database_file', 'server_base.db3')
+        config.set('SETTINGS', 'Database_file', 'server_database.db3')
         return config
 
 

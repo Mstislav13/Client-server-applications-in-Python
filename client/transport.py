@@ -27,7 +27,7 @@ class ClientTransport(threading.Thread, QObject):
     """
     # Сигналы новое сообщение и потеря соединения
     new_message = pyqtSignal(str)
-    connection_lost = pyqtSignal()
+    message_205 = pyqtSignal()
     connection_lost = pyqtSignal()
 
     def __init__(self, port, ip_address, database, username, passwd, keys):
@@ -110,7 +110,7 @@ class ClientTransport(threading.Thread, QObject):
 
         # Авторизируемся на сервере
         with socket_lock:
-            presense = {
+            presence = {
                 ACTION: PRESENCE,
                 TIME: time.time(),
                 USER: {
@@ -118,10 +118,10 @@ class ClientTransport(threading.Thread, QObject):
                     PUBLIC_KEY: pubkey
                 }
             }
-            logger.debug(f"Сформировано сообщение: {presense}")
+            logger.debug(f"Сформировано сообщение: {presence}")
             # Отправляем серверу приветственное сообщение.
             try:
-                send_message(self.transport, presense)
+                send_message(self.transport, presence)
                 ans = get_message(self.transport)
                 logger.debug(f'Ответ сервера: {ans}.')
                 # Если сервер вернул ошибку, бросаем исключение.
@@ -137,7 +137,7 @@ class ClientTransport(threading.Thread, QObject):
                         my_ans[DATA] = binascii.b2a_base64(
                             digest).decode('ascii')
                         send_message(self.transport, my_ans)
-                        self.process_server_ans(get_message(self.transport))
+                        self.process_response_answer(get_message(self.transport))
             except (OSError, json.JSONDecodeError) as err:
                 logger.debug('Потеряно соединение с сервером!', exc_info=err)
                 raise ServerError('Потеряно соединение с сервером в процессе авторизации!')
@@ -339,4 +339,4 @@ class ClientTransport(threading.Thread, QObject):
             # Если сообщение получено, то вызываем функцию обработчик:
             if message:
                 logger.debug(f'Принято сообщение с сервера: {message}')
-                self.process_server_ans(message)
+                self.process_response_answer(message)

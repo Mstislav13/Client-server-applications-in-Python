@@ -110,7 +110,7 @@
      <rect>
       <x>320</x>
       <y>430</y>
-      <width>211</width>
+      <width>321</width>
       <height>16</height>
      </rect>
     </property>
@@ -120,7 +120,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Напишите своё сообщение:</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сообщение для:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QListView" name="list_contacts">
