@@ -7,7 +7,7 @@ class ClientVerifier(type):
     вызовов таких как: accept, listen. Также проверяется, что сокет не
     создаётся внутри конструктора класса.
     """
-    def __init__(self, clsname, bases, clsdict):
+    def __init__(cls, clsname, bases, clsdict):
         methods = []
 
         for func in clsdict:
@@ -23,12 +23,14 @@ class ClientVerifier(type):
 
         for command in ('accept', 'listen', 'socket'):
             if command in methods:
-                raise TypeError(f'В классе вызван запрещённый метод {command}')
+                raise TypeError(
+                    f'В классе вызван запрещённый метод {command}')
 
         if 'get_message' in methods or 'send_message' in methods:
             pass
         else:
-            raise TypeError('Отсутствуют вызовы функций, работающих с сокетами')
+            raise TypeError(
+                'Отсутствуют вызовы функций, работающих с сокетами')
         super().__init__(clsname, bases, clsdict)
 
 
@@ -38,7 +40,7 @@ class ServerVerifier(type):
     вызовов таких как: connect. Также проверяется, что серверный
     сокет является TCP и работает по IPv4 протоколу.
     """
-    def __init__(self, clsname, bases, clsdict):
+    def __init__(cls, clsname, bases, clsdict):
         methods = []
         attributes = []
 
@@ -57,7 +59,8 @@ class ServerVerifier(type):
                             attributes.append(i.argval)
 
         if 'connect' in methods:
-            raise TypeError('Использование метода - connect недопустимо в серверном классе')
+            raise TypeError('Использование метода - '
+                            'connect недопустимо в серверном классе')
         if not ('SOCK_STREAM' in attributes and 'AF_INET' in attributes):
             raise TypeError('Некорректная инициализация сокета')
 

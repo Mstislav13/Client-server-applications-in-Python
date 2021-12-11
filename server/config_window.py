@@ -1,12 +1,14 @@
-from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QPushButton, QFileDialog, QMessageBox
+from os import path
+from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QPushButton, \
+    QFileDialog, QMessageBox
 from PyQt5.QtCore import Qt
-import os
 
 
 class ConfigWindow(QDialog):
     """
     Класс окно настроек.
     """
+
     def __init__(self, config):
         super().__init__()
         self.config = config
@@ -47,7 +49,7 @@ class ConfigWindow(QDialog):
         self.db_file.setFixedSize(150, 20)
 
         # Метка с номером порта
-        self.port_label = QLabel('Номер порта для соединений: ', self)
+        self.port_label = QLabel('Номер порта для соединений:', self)
         self.port_label.move(10, 108)
         self.port_label.setFixedSize(180, 15)
 
@@ -57,12 +59,15 @@ class ConfigWindow(QDialog):
         self.port.setFixedSize(150, 20)
 
         # Метка с адресом для соединений
-        self.ip_label = QLabel('С какого IP принимаем соединения: ', self)
+        self.ip_label = QLabel('С какого IP принимаем соединения:', self)
         self.ip_label.move(10, 148)
         self.ip_label.setFixedSize(180, 15)
 
         # Метка с напоминанием о пустом поле.
-        self.ip_label_note = QLabel('Оставьте это поле пустым, чтобы\n принимать соединения с любых адресов.', self)
+        self.ip_label_note = QLabel(
+            ' оставьте это поле пустым, чтобы\n принимать соединения '
+            'с любых адресов.',
+            self)
         self.ip_label_note.move(10, 168)
         self.ip_label_note.setFixedSize(500, 30)
 
@@ -119,8 +124,8 @@ class ConfigWindow(QDialog):
             self.config['SETTINGS']['Listen_Address'] = self.ip.text()
             if 1023 < port < 65536:
                 self.config['SETTINGS']['Default_port'] = str(port)
-                dir_path = os.path.dirname(os.path.realpath(__file__))
-                dir_path = os.path.join(dir_path, '..')
+                dir_path = path.dirname(path.realpath(__file__))
+                dir_path = path.join(dir_path, '..')
                 with open(f"{dir_path}/{'server.ini'}", 'w') as conf:
                     self.config.write(conf)
                     message.information(

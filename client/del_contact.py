@@ -1,9 +1,8 @@
-import sys
 import logging
-from PyQt5.QtWidgets import QDialog, QLabel, QComboBox, QPushButton, QApplication
+from PyQt5.QtWidgets import QDialog, QLabel, QComboBox, QPushButton, \
+    QApplication
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-sys.path.append('../')
 
 # Инициализация клиентского логера
 logger = logging.getLogger('client')
@@ -13,16 +12,17 @@ class DelContactDialog(QDialog):
     """
     Диалог выбора контакта для удаления
     """
+
     def __init__(self, database):
         super().__init__()
         self.database = database
 
         self.setFixedSize(350, 120)
-        self.setWindowTitle('Выберите контакт для удаления: ')
+        self.setWindowTitle('Выберите контакт для удаления:')
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setModal(True)
 
-        self.selector_label = QLabel('Выберите контакт для удаления: ', self)
+        self.selector_label = QLabel('Выберите контакт для удаления:', self)
         self.selector_label.setFixedSize(200, 20)
         self.selector_label.move(10, 0)
 

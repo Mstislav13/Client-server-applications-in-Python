@@ -1,14 +1,13 @@
-import argparse
-import os
 import sys
-import configparser
+import argparse
 import logging
+import configparser
+from os import path
 import log.server_log_config
-from common.decos import log
-from common.utils import get_message, send_message
-from common.variables import *
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt
+from common.decos import log
+from common.variables import DEFAULT_PORT
 from server.database import ServerStorage
 from server.core import MessageProcessor
 from server.main_window import MainWindow
@@ -43,7 +42,7 @@ def config_load():
     :return:
     """
     config = configparser.ConfigParser()
-    dir_path = os.path.dirname(os.path.realpath(__file__))
+    dir_path = path.dirname(path.realpath(__file__))
     config.read(f"{dir_path}/{'server.ini'}")
     # Если файл конфигурации загружен правильно - запускаемся.
     # Иначе конфигурация по умолчанию.
@@ -67,12 +66,15 @@ def main():
     # Загрузка файла конфигурации сервера
     config = config_load()
 
-    # Загрузка параметров командной строки, если нет параметров, то задаём значения по умоланию.
-    listen_address, listen_port, gui_flag = create_arg_parser(config['SETTINGS']['Default_port'],
-                                                              config['SETTINGS']['Listen_Address'])
+    # Загрузка параметров командной строки, если нет параметров,
+    # то задаём значения по умоланию.
+    listen_address, listen_port, gui_flag = create_arg_parser(
+        config['SETTINGS']['Default_port'],
+        config['SETTINGS']['Listen_Address'])
 
     # Инициализация базы данных
-    database = ServerStorage(os.path.join(
+    database = ServerStorage(
+        path.join(
             config['SETTINGS']['Database_path'],
             config['SETTINGS']['Database_file']))
 
@@ -81,10 +83,11 @@ def main():
     server.daemon = True
     server.start()
 
-    # Если  указан параметр без GUI то запускаем простенький обработчик консольного ввода
+    # Если  указан параметр без GUI то запускаем простенький
+    #  обработчик консольного ввода
     if gui_flag:
         while True:
-            command = input('Введите "exit" для завершения работы сервера.')
+            command = input('Введите exit для завершения работы сервера.')
             if command == 'exit':
                 # Если выход, то завршаем основной цикл сервера.
                 server.running = False

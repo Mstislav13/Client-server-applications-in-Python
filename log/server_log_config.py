@@ -7,7 +7,8 @@ sys.path.append('../')
 sys.path.append(os.path.join(os.getcwd(), '..'))
 
 # создаём формировщик логов (formatter):
-server_formatter = logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(message)s')
+server_formatter = logging.Formatter(
+    '%(asctime)s %(levelname)s %(filename)s %(message)s')
 
 # Подготовка имени файла для логирования
 path = os.path.dirname(os.path.abspath(__file__))
@@ -17,7 +18,8 @@ path = os.path.join(path, 'log_data/server.log')
 steam = logging.StreamHandler(sys.stderr)
 steam.setFormatter(server_formatter)
 steam.setLevel(logging.DEBUG)
-log_file = logging.handlers.TimedRotatingFileHandler(path, encoding='utf-8', interval=1, when='D')
+log_file = logging.handlers.TimedRotatingFileHandler(
+    path, encoding='utf-8', interval=1, when='D')
 log_file.setFormatter(server_formatter)
 
 # создаём регистратор и настраиваем его

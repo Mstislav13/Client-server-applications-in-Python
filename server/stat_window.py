@@ -7,13 +7,14 @@ class StatWindow(QDialog):
     """
     Класс - окно со статистикой пользователей
     """
+
     def __init__(self, database):
         super().__init__()
 
         self.database = database
-        self.init_ui()
+        self.initUI()
 
-    def init_ui(self):
+    def initUI(self):
         """
         :return:
         """
@@ -44,8 +45,9 @@ class StatWindow(QDialog):
 
         # Объект модели данных:
         list = QStandardItemModel()
-        list.setHorizontalHeaderLabels(['Имя Клиента', 'Последний раз входил', 'Сообщений отправлено',
-                                        'Сообщений получено'])
+        list.setHorizontalHeaderLabels(
+            ['Имя Клиента', 'Последний раз входил', 'Сообщений отправлено',
+             'Сообщений получено'])
         for row in stat_list:
             user, last_seen, sent, recvd = row
             user = QStandardItem(user)

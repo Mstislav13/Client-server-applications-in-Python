@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QApplication, QLabel, QTableView
+from PyQt5.QtWidgets import QMainWindow, QAction, qApp, QApplication, \
+    QLabel, QTableView
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import QTimer
 from server.stat_window import StatWindow
@@ -12,7 +13,6 @@ class MainWindow(QMainWindow):
     Класс - основное окно сервера.
     """
     def __init__(self, database, server, config):
-
         # Конструктор предка
         super().__init__()
 
@@ -27,26 +27,26 @@ class MainWindow(QMainWindow):
         self.exitAction.setShortcut('Ctrl+Q')
         self.exitAction.triggered.connect(qApp.quit)
 
-        # Кнопка - обновить список клиентов
+        # Кнопка обновить список клиентов
         self.refresh_button = QAction('Обновить список', self)
 
-        # Кнопка - настроек сервера
+        # Кнопка настроек сервера
         self.config_btn = QAction('Настройки сервера', self)
 
-        # Кнопка - регистрации пользователя
+        # Кнопка регистрации пользователя
         self.register_btn = QAction('Регистрация пользователя', self)
 
-        # Кнопка - удаления пользователя
+        # Кнопка удаления пользователя
         self.remove_btn = QAction('Удаление пользователя', self)
 
-        # Кнопка - вывести историю сообщений
+        # Кнопка вывести историю сообщений
         self.show_history_button = QAction('История клиентов', self)
 
-        # Статус-бар
+        # Статусбар
         self.statusBar()
         self.statusBar().showMessage('Сервер Работает')
 
-        # Тул-бар
+        # Тулбар
         self.toolbar = self.addToolBar('MainBar')
         self.toolbar.addAction(self.exitAction)
         self.toolbar.addAction(self.refresh_button)
@@ -62,7 +62,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Messaging Server alpha release')
 
         # Надпись о том, что ниже список подключённых клиентов
-        self.label = QLabel('Список подключённых клиентов: ', self)
+        self.label = QLabel('Список подключённых клиентов:', self)
         self.label.setFixedSize(240, 15)
         self.label.move(10, 25)
 
@@ -103,7 +103,8 @@ class MainWindow(QMainWindow):
             ip.setEditable(False)
             port = QStandardItem(str(port))
             port.setEditable(False)
-            # Уберём милисекунды из строки времени, т.к. такая точность не требуется.
+            # Уберём милисекунды из строки времени, т.к. такая точность не
+            # требуется.
             time = QStandardItem(str(time.replace(microsecond=0)))
             time.setEditable(False)
             list.appendRow([user, ip, port, time])

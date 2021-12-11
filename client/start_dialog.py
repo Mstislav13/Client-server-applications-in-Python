@@ -1,20 +1,21 @@
-from PyQt5.QtWidgets import QDialog, QPushButton, QLineEdit, QApplication, QLabel, qApp
-from PyQt5.QtCore import QEvent
+from PyQt5.QtWidgets import QDialog, QPushButton, QLineEdit, \
+    QApplication, QLabel, qApp
 
 
 class UserNameDialog(QDialog):
     """
     Стартовый диалог с выбором имени пользователя
     """
+
     def __init__(self):
         super().__init__()
 
         self.ok_pressed = False
 
         self.setWindowTitle('Привет!')
-        self.setFixedSize(175, 140)
+        self.setFixedSize(175, 135)
 
-        self.label = QLabel('Введите имя пользователя: ', self)
+        self.label = QLabel('Введите имя пользователя:', self)
         self.label.move(10, 10)
         self.label.setFixedSize(150, 10)
 
@@ -41,7 +42,8 @@ class UserNameDialog(QDialog):
 
         self.show()
 
-    # Обработчик кнопки ОК, если поле ввода не пустое, ставим флаг и завершаем приложение.
+    # Обработчик кнопки ОК, если поле ввода не пустое,
+    # ставим флаг и завершаем приложение.
     def click(self):
         """
         :return:

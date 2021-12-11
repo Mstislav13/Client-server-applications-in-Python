@@ -1,13 +1,13 @@
 import sys
-import log.server_log_config
-import log.client_log_config
 import logging
 import socket
+import log.server_log_config
+import log.client_log_config
 sys.path.append('../')
 
 # Определение модуля (источника) запуска.
 # Метод find() возвращает индекс первого вхождения искомой подстроки,
-#                                                   если он найден в данной строке.
+# если он найден в данной строке.
 # Если индекс не найден, модуль возвращает: -1
 
 if sys.argv[0].find('client') == -1:
@@ -27,10 +27,11 @@ def log(log_function):
         :param kwargs:
         :return:
         """
-        logger.debug(f'Функция: {log_function.__name__} с параметрами: {args} , {kwargs}. '
+        logger.debug(f'Функция: {log_function.__name__} '
+                     f'с параметрами: {args} , {kwargs}. '
                      f'Вызов из модуля {log_function.__module__}')
-        f = log_function(*args , **kwargs)
-        return f
+        func_ = log_function(*args, **kwargs)
+        return func_
     return log_ing
 
 

@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QDialog, QLabel, QComboBox, QPushButton, QApplication
+from PyQt5.QtWidgets import QDialog, QLabel, QComboBox, QPushButton, \
+    QApplication
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
@@ -7,6 +8,7 @@ class DelUserDialog(QDialog):
     """
     Класс - диалог выбора контакта для удаления.
     """
+
     def __init__(self, database, server):
         super().__init__()
         self.database = database
@@ -17,7 +19,8 @@ class DelUserDialog(QDialog):
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setModal(True)
 
-        self.selector_label = QLabel('Выберите пользователя для удаления: ', self)
+        self.selector_label = QLabel(
+            'Выберите пользователя для удаления:', self)
         self.selector_label.setFixedSize(200, 20)
         self.selector_label.move(10, 0)
 
@@ -42,7 +45,8 @@ class DelUserDialog(QDialog):
         Метод заполняющий список пользователей.
         :return:
         """
-        self.selector.addItems([item[0] for item in self.database.users_list()])
+        self.selector.addItems([item[0]
+                                for item in self.database.users_list()])
 
     def remove_user(self):
         """

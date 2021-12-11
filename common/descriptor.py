@@ -1,7 +1,15 @@
 import ipaddress
 import logging
+from sys import argv
 
-logger = logging.getLogger('server')
+# Инициализиция логера
+# метод определения модуля, источника запуска.
+if argv[0].find('client') == -1:
+    # если не клиент то сервер!
+    logger = logging.getLogger('server')
+else:
+    # ну, раз не сервер, то клиент
+    logger = logging.getLogger('client')
 
 
 class Port:
@@ -11,16 +19,18 @@ class Port:
     def __set__(self, instance, value):
         if value == (range(1024, 65536)):
             logger.critical(
-                f'Попытка подключения клиента с неподходящим: {value} номером порта.'
-                f'Допустимые номера портов с 1024 до 65535. Подключение завершается.')
-            exit(1)
+                f'Попытка подключения клиента с неподходящим: '
+                f'{value} номером порта.'
+                f'Допустимые номера портов с 1024 до 65535. '
+                f'Подключение завершается.')
+            raise TypeError('Некорректрый номер порта')
         instance.__dict__[self.name] = value
 
     def __set_name__(self, owner, name):
         self.name = name
 
 
-class Address():
+class Address:
     """
     Класс - дескриптор для IP-адреса.
     """
@@ -28,8 +38,8 @@ class Address():
         if value:
             try:
                 ip = ipaddress.ip_address(value)
-            except ValueError as e:
-                logger.critical(f'Не корректный IP-адрес: {e}')
+            except ValueError as err_:
+                logger.critical(f'Не корректный IP-адрес: {err_}')
                 exit(1)
         instance.__dict__[self.name] = value
 

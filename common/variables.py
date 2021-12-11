@@ -46,8 +46,8 @@ RESPONSE_202 = {RESPONSE: 202,
                 LIST_INFO: None}
 RESPONSE_205 = {RESPONSE: 205}
 RESPONSE_400 = {
-            RESPONSE: 400,
-            ERROR: None}
+    RESPONSE: 400,
+    ERROR: None}
 RESPONSE_511 = {
     RESPONSE: 511,
     DATA: None

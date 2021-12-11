@@ -1,9 +1,8 @@
-import sys
 import logging
 from PyQt5.QtWidgets import QDialog, QLabel, QComboBox, QPushButton
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-sys.path.append('../')
+
 
 # Инициализация клиентского логера
 logger = logging.getLogger('client')
@@ -13,17 +12,18 @@ class AddContactDialog(QDialog):
     """
     Диалог выбора контакта для добавления
     """
+
     def __init__(self, transport, database):
         super().__init__()
         self.transport = transport
         self.database = database
 
         self.setFixedSize(350, 120)
-        self.setWindowTitle('Выберите контакт для добавления: ')
+        self.setWindowTitle('Выберите контакт для добавления:')
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setModal(True)
 
-        self.selector_label = QLabel('Выберите контакт для добавления: ', self)
+        self.selector_label = QLabel('Выберите контакт для добавления:', self)
         self.selector_label.setFixedSize(200, 20)
         self.selector_label.move(10, 0)
 
@@ -46,10 +46,11 @@ class AddContactDialog(QDialog):
 
         # Заполняем список возможных контактов
         self.possible_contacts_update()
-        # Назначаем действие на кнопку 'обновить'
+        # Назначаем действие на кнопку обновить
         self.btn_refresh.clicked.connect(self.update_possible_contacts)
 
-    # Заполняем список возможных контактов разницей между всеми пользователями и
+    # Заполняем список возможных контактов
+    #  разницей между всеми пользователями и
     def possible_contacts_update(self):
         """
         :return:
@@ -58,7 +59,8 @@ class AddContactDialog(QDialog):
         # множества всех контактов и контактов клиента
         contacts_list = set(self.database.get_contacts())
         users_list = set(self.database.get_users())
-        # Удалим сами себя из списка пользователей, чтобы нельзя было добавить самого себя
+        # Удалим сами себя из списка пользователей, чтобы нельзя было добавить
+        # самого себя
         users_list.remove(self.transport.username)
         # Добавляем список возможных контактов
         self.selector.addItems(users_list - contacts_list)

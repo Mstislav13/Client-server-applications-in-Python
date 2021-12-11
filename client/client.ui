@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>683</width>
-    <height>681</height>
+    <height>726</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -45,7 +45,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>540</y>
+      <y>570</y>
       <width>151</width>
       <height>31</height>
      </rect>
@@ -63,7 +63,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>580</y>
+      <y>610</y>
       <width>141</width>
       <height>31</height>
      </rect>
@@ -99,7 +99,7 @@
     <property name="geometry">
      <rect>
       <x>310</x>
-      <y>450</y>
+      <y>480</y>
       <width>341</width>
       <height>71</height>
      </rect>
@@ -110,17 +110,21 @@
      <rect>
       <x>320</x>
       <y>430</y>
-      <width>321</width>
-      <height>16</height>
+      <width>351</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сообщение для:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;
+      Сообщение для:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QListView" name="list_contacts">
@@ -129,7 +133,7 @@
       <x>30</x>
       <y>30</y>
       <width>251</width>
-      <height>491</height>
+      <height>521</height>
      </rect>
     </property>
    </widget>
@@ -147,7 +151,7 @@
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>530</y>
+      <y>560</y>
       <width>181</width>
       <height>51</height>
      </rect>
@@ -165,7 +169,7 @@
     <property name="geometry">
      <rect>
       <x>540</x>
-      <y>590</y>
+      <y>620</y>
       <width>111</width>
       <height>41</height>
      </rect>

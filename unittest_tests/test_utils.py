@@ -1,25 +1,25 @@
-import sys
-from common.utils import get_message, send_message
-from common.variables import ENCODING, ACTION, PRESENCE, TIME, USER, ACCOUNT_NAME, RESPONSE, ERROR
 import unittest
-from common.errors import NonDictInputError
 import json
-import os
-sys.path.append('../')
-sys.path.append(os.path.join(os.getcwd(), '..'))
+from common.utils import get_message, send_message
+from common.variables import ENCODING, ACTION, PRESENCE, TIME, USER, \
+    ACCOUNT_NAME, RESPONSE, ERROR
+from common.errors import NonDictInputError
 
 
 class TestConnectSpot:
     """
     Тестовый класс для тестирования отправки и получения
-    (при создании требует словарь, который будет прогоняться через тестовую функцию)
+     (при создании требует словарь, который будет
+     прогоняться через тестовую функцию)
     """
+
     def __init__(self, test_dict):
         self.testdict = test_dict
 
     def send(self, message_to_send):
         """
-        Тестовая функция отправки (корректно кодирует сообщение, сораняет то, что должно быть отправлено в сокет)
+        Тестовая функция отправки (корректно кодирует сообщение, сораняет то,
+         что должно быть отправлено в сокет)
         transmit_message - отправляем в сокет
         :param message_to_send:
         :return:
@@ -64,12 +64,16 @@ class TestingOfProcess(unittest.TestCase):
         """
         # экземпляр тестового словаря, хранит собственно тестовый словарь
         test_socket = TestConnectSpot(self.test_dict_send)
-        # вызов тестируемой функции, результаты будут сохранены в тестовом сокете
+        # вызов тестируемой функции, результаты будут
+        # сохранены в тестовом сокете
         send_message(test_socket, self.test_dict_send)
-        # проверка корретности кодирования словаря. сравниваем результат довренного кодирования и результат
+        # проверка корретности кодирования словаря. сравниваем
+        # результат довренного кодирования и результат
         # от тестируемой функции
-        self.assertEqual(test_socket.encoded_message, test_socket.receved_message)
-        # дополнительно, проверим генерацию исключения, при не словаре на входе.
+        self.assertEqual(test_socket.encoded_message,
+                         test_socket.receved_message)
+        # дополнительно, проверим генерацию исключения,
+        # при не словаре на входе.
         self.assertRaises(NonDictInputError, send_message, test_socket, 1111)
 
     def test_listen_message(self):
@@ -80,9 +84,11 @@ class TestingOfProcess(unittest.TestCase):
         test_sock_luck = TestConnectSpot(self.test_dict_gotten_luck)
         test_sock_un_luck = TestConnectSpot(self.test_dict_gotten_un_luck)
         # тест корректной расшифровки корректного словаря
-        self.assertEqual(get_message(test_sock_luck), self.test_dict_gotten_luck)
+        self.assertEqual(get_message(test_sock_luck),
+                         self.test_dict_gotten_luck)
         # тест корректной расшифровки ошибочного словаря
-        self.assertEqual(get_message(test_sock_un_luck), self.test_dict_gotten_un_luck)
+        self.assertEqual(get_message(test_sock_un_luck),
+                         self.test_dict_gotten_un_luck)
 
 
 if __name__ == '__main__':
